@@ -1,0 +1,235 @@
+.home-section {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  margin: 1rem;
+  min-height: 28rem;
+  max-height: calc(100vh - 20rem);
+  height: fit-content;
+  display: flex;
+  align-items: center;
+}
+.buy-container {
+  min-width: 300px;
+  max-width: 472px;
+  background: #000;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  justify-content: space-between;
+}
+.cont-head {
+  color: #e5e7eb;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  font-size: 1.35rem;
+  line-height: 1.75rem;
+}
+.slippage-cta{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+.slippage-gas {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  background-color: #22262F;
+  width: 46%;
+  padding: 8px;
+  border-radius: 8px;
+
+}
+.s-g-text1{
+  font-size: 14px;
+  line-height: 18px;
+  color: #e5e7eb;
+}
+.buy-cta {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: #73A0FB;
+  text-align: center;
+  padding: 18px;
+  color: #fff;
+  font-size: 12px;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: "Bai Jamjuree", sans-serif;
+  font-weight: 600;
+  width: 48%;
+}
+.buy-input-field {
+  /* margin-top: 1.5rem; */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.buy-input-field-reverse {
+  margin-top: 1.5rem;
+  position: relative;
+  display: flex;
+  flex-direction: column-reverse;
+}
+.field1-border-radius {
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
+.field2-border-radius {
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
+.single-field {
+  background-color: #0C0E12;
+  padding: 18px 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  border: 1px solid #373A41;
+  /* border: 1px solid #cccccc3d; */
+}
+.field-xs-text {
+  color: rgb(126 125 134 /1);
+  font-size: 1rem;
+  line-height: 1rem;
+  margin-bottom: 0.5rem;
+}
+.field-xl-text {
+  color: #9c9fa6;
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-left: 15px;
+  margin-top: 5px;
+}
+
+.currency-container {
+  position: relative;
+  display: inline-block;
+}
+
+.currency-selector {
+  position: relative;
+  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+ 
+  border-radius: 12px;
+  padding: 8px 12px;
+  width: 65px;
+  color: white;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.currency-logo {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}
+
+.currency-name {
+  flex: 1;
+}
+
+.dropdown-icon {
+  font-size: 14px;
+  color: #aaa;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 28%;
+  left: 15px;
+  background-color: #1c1c1c;
+  border: 1px solid #2c2c2c;
+  border-radius: 12px;
+  width: 120px;
+  margin-top: 4px;
+  overflow: hidden;
+  z-index: 1000;
+}
+.dropdown2-menu {
+  position: absolute;
+  bottom: -64%;
+  left: 15px;
+  background-color: #1c1c1c;
+  border: 1px solid #2c2c2c;
+  border-radius: 12px;
+  width: 120px;
+  margin-top: 4px;
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  cursor: pointer;
+  color: white;
+}
+
+.dropdown-item:hover,
+.dropdown-item.active {
+  background-color: #2a2a2a;
+}
+
+.dropdown-logo {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+}
+
+.dropdown-name {
+  flex: 1;
+}
+
+.dropdown-balance {
+  color: #aaa;
+  font-size: 14px;
+}
+
+.swap-icon {
+    margin: 20px 0;
+    float: left;
+    background-color: #94979C;
+    border-radius: 8px;
+    padding: 8px;
+    border: 1px solid #cccccc3d;
+    cursor: pointer;
+    width: max-content;
+}
+.swap-icon2{
+  display: block;
+  margin: auto;
+  background-color: #000;
+  border-radius: 8px;
+  padding: 8px;
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  border: 1px solid #cccccc3d;
+  cursor: pointer;
+  width: max-content;
+}
+@media screen and (max-width:957px) {
+  .buy-container{
+    margin: 5rem 2rem;
+  }
+}
