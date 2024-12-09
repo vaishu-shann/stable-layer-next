@@ -66,11 +66,14 @@ body{
 }
 @media (max-width: 600px) {
   .layout-background-image::before {
-    background-size: auto;
+    background-size: cover;
   }
 }
   @media (max-width: 1000px) {
     .layout-background-image {
       background-position: 0 0;
+    }
+    .layout-background-image::before {
+      background-size: cover;
     }
   }

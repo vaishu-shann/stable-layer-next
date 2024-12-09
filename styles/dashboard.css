@@ -159,3 +159,28 @@ margin-top: 30px;
     text-align: center;
     padding: 50px 0;
   }
+  @media screen and (max-width:957px) {
+    .cust-block{
+      width: 100%;
+      margin-right: 0;
+    }
+    .table-container-cust{
+      width: 100%;
+    }
+    .cust-block-2{
+      margin-right: 0;
+      width: 88%;
+    }
+    .backing-dash{
+      flex-direction: column;
+    }
+    .backing-apy{
+      margin-top: 20px;
+    }
+    .backing-dash .ena-head{
+      text-align: center;
+    }
+    .backing-dash .ena-desc{
+      width: 100%;
+    }
+  }

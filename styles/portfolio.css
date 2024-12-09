@@ -132,3 +132,40 @@ transition: all 0.3s ease; */
   border-radius: 25px;
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.1), 0 0 10px rgba(72, 155, 255, 0.6);
 }
+@media screen and (max-width:957px) {
+  .p-s-list {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.p-s-balance-locked-cont{
+  width: 90%;
+  margin-bottom: 15px;
+}
+.portfolio-width{
+  padding-left:0.5rem;
+  padding-right: 0.5rem;
+}
+.p-s-balance-locked-cont-2{
+  width: 90%;
+    margin-bottom: 15px;
+}
+.portfolio-stake-sec {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.portfolio-stake-sec .portfolio-stake-banner{
+  width: 90%;
+  margin-bottom: 20px;
+}
+.stake-ena-cta{
+  width: 120px;
+}
+.sena-conatiner{
+  width: 90%;
+  margin-left: 0;
+}
+}

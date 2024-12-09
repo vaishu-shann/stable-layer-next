@@ -5,15 +5,22 @@ import { useRouter } from "next/router";
 import { createWallet } from "thirdweb/wallets";
 import { ConnectButton } from "thirdweb/react";
 import { createThirdwebClient } from "thirdweb";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { MdOutlineClose } from "react-icons/md";
+import useWindowSize from "../../utils/windowSize";
+import { IconContext } from "react-icons";
+import "../../styles/NavbarMock.css"
 
 const Navbar = () => {
-    
+    const [click, setClick] = React.useState(false);
+    const handleClick = () => setClick(!click);
+    const windowSize = useWindowSize();
     const router = useRouter();
     let Pathname: any;
 
     const client = createThirdwebClient({
         clientId: "bfb4a8901e09d80f302031db896aeec8",
-      });
+    });
     const wallets = [
         createWallet("io.metamask"),
         createWallet("com.coinbase.wallet"),
@@ -21,7 +28,13 @@ const Navbar = () => {
         createWallet("io.rabby"),
         createWallet("io.zerion.wallet"),
     ];
-
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            Pathname = window.location.pathname;
+        } else {
+            console.log("You are on the server,Cannot execute");
+        }
+    }, []);
 
 
     const onScreenRoute = (route: string) => {
@@ -33,23 +46,29 @@ const Navbar = () => {
         <div className="navbar  mb-2">
             <div className="navbar-left">
                 <div style={{ color: "#fff", fontWeight: 700, fontSize: 24, marginRight: 10 }}>StableLayer</div>
-                <div className={window.location.pathname === '/portfolio' ?'navbar-list-active'  :'navbar-list' }
-                    onClick={() => onScreenRoute('/portfolio')}>Portfolio</div>
-                <div className={window.location.pathname === '/sena' ?'navbar-list-active'  :'navbar-list'} onClick={() => onScreenRoute('/sena')}>sENA</div>
-                <div
-                    className={window.location.pathname === '/buy' ?'navbar-list-active'  :'navbar-list'}
-                    onClick={() => onScreenRoute('/buy')}
-                >
-                    Buy
+
+                <div className="routes">
+                    <ul className={click ? "nav-menu active slide-in" : "nav-list"}  id="slider">
+                        <li className={Pathname === '/portfolio' ? 'navbar-list-active' : ''}
+                            onClick={() => onScreenRoute('/portfolio')}>Portfolio</li>
+                        <li className={Pathname === '/sena' ? 'navbar-list-active' : ''} onClick={() => onScreenRoute('/sena')}>sENA</li>
+                        <li
+                            className={Pathname === '/buy' ? 'navbar-list-active' : ''}
+                            onClick={() => onScreenRoute('/buy')}
+                        >
+                            Buy
+                        </li>
+                        <li
+                            className={Pathname === '/earn' ? 'navbar-list-active' : ''}
+                            onClick={() => onScreenRoute('/earn')}
+                        >
+                            Earn
+                        </li>
+                        {/* <div className={Pathname === '/reward' ?'navbar-list-active'  :'navbar-list'}>Reward</div> */}
+                        <li className={Pathname === '/dashboard' ? 'navbar-list-active' : ''} onClick={() => onScreenRoute('/dashboard')}>Dashboards</li>
+                    </ul>
                 </div>
-                <div
-                    className={window.location.pathname === '/earn' ?'navbar-list-active'  :'navbar-list'}
-                    onClick={() => onScreenRoute('/earn')}
-                >
-                    Earn
-                </div>
-                {/* <div className={window.location.pathname === '/reward' ?'navbar-list-active'  :'navbar-list'}>Reward</div> */}
-                <div className={window.location.pathname === '/dashboard' ?'navbar-list-active'  :'navbar-list'} onClick={() => onScreenRoute('/dashboard')}>Dashboards</div>
+
             </div>
             <div className="navbar-right">
                 <ConnectButton
@@ -60,6 +79,35 @@ const Navbar = () => {
                         url: "https://example.com",
                     }}
                 />
+                {windowSize.width <= 960 && (
+                    <div onClick={handleClick}>
+                        {click ? (
+                            <IconContext.Provider
+                                value={{
+                                    size: "1.2em",
+                                    color: "#fff",
+                                    className: "global-class-name",
+                                }}
+                            >
+                                <div style={{ marginLeft: 15, cursor: "pointer" }}>
+                                    <MdOutlineClose />
+                                </div>
+                            </IconContext.Provider>
+                        ) : (
+                            <IconContext.Provider
+                                value={{
+                                    size: "1.2em",
+                                    color: "#fff",
+                                    className: "global-class-name",
+                                }}
+                            >
+                                <div style={{ marginLeft: 15, cursor: "pointer" }}>
+                                    <GiHamburgerMenu />
+                                </div>
+                            </IconContext.Provider>
+                        )}
+                    </div>
+                )}
             </div>
         </div>
 

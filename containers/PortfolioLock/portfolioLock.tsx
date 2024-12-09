@@ -8,16 +8,23 @@ import PortfolioLockTab from '../PortfolioLockTab/portfolioLockTab';
 
 
 const PortfolioLock = () => {
+    let Pathname: any;
 
     const [lockTab, setLockTab] = useState("lock")
- 
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+          Pathname = window.location.pathname;
+        } else {
+          console.log("You are on the server,Cannot execute");
+        }
+      }, []);
 
     return (
-        <div className={window.location.pathname === "/portfolio" ?'lock-container': "sena-conatiner"}>
+        <div className={Pathname === "/portfolio" ?'lock-container': "sena-conatiner"}>
             <div className='earn-page-tab'>
                 <div className={lockTab === "lock" ? 'tab-list-lock-active' : 'tab-list-lock'} onClick={() => setLockTab("lock")}>Lock</div>
                 <div className={lockTab === "stake" ? 'tab-list-lock-active' : 'tab-list-lock'} onClick={() => setLockTab("stake")}>Stake</div>
-               { window.location.pathname === "/portfolio" && 
+               { Pathname === "/portfolio" && 
                 <div className={lockTab === "buy" ? 'tab-list-lock-active' : 'tab-list-lock'} onClick={() => setLockTab("buy")}>Buy</div>}
             </div>
 

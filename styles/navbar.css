@@ -83,7 +83,12 @@
   color: #fff;
 }
 .navbar-list{
-  margin: 0 15px;
+  display: flex;
+  /* justify-content: space-between; */
+  padding-right: 10px;
+  list-style: none;
+  align-items: center;
+  margin: 0 5px;
   cursor: pointer;
   border-bottom: 2px solid transparent;
   transition: all 0.3s ease;
@@ -119,9 +124,12 @@
       box-shadow: 0 0 15px #0044ff;
   }
 }
-
 @media screen and (max-width:957px) {
   .navbar-list{
     display: none;
+  }
+  .navbar{
+    padding-left:0px;
+    padding-right: 0px;
   }
 }

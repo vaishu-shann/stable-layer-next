@@ -5,6 +5,7 @@
     margin: 2.5rem auto -30px;
 }
 .lock-ena-bg{
+    
     background:#00000073;
     max-width: 42rem;
     padding: 1.5rem;
@@ -44,4 +45,17 @@
     border:1px solid hsla(0, 0%, 100%, .2);
     border-radius: 0.5rem;
     color: #fff;
+}
+
+@media screen and (max-width:957px) {
+    .lock-ena-bg{
+        margin-right: 1rem;
+        margin-left: 1rem;
+    }
+    .ena-desc{
+        width: 85%;
+    }
+    .lock-ena-cta{
+        width: 105px;
+    }
 }

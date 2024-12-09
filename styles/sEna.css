@@ -124,3 +124,22 @@
 .eth-chart{
     margin-top: 30px;
 }
+
+@media screen and (max-width:957px){
+  .sena-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.sena-list-single{
+  width: 92%;
+  margin-bottom: 15px;
+}
+.eth-chart {
+  width: 100%;
+  height: auto;
+  margin-top: 30px;
+}
+
+}

@@ -94,8 +94,8 @@ const StakeInputBox = () => {
                         )}
                     </div>
                 </div>
-                <IconContext.Provider value={{ color: "#fff", className: "swap-icon", size: '1.2em' }}>
-                    <div onClick={swappingToggle} >
+                <IconContext.Provider value={{ color: "#fff" , size: '1.2em' }}>
+                    <div className="swap-icon"onClick={swappingToggle} >
                         <GoArrowDown />
                     </div>
                 </IconContext.Provider>
