@@ -1,169 +1,265 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from "react";
 import { IconContext } from "react-icons";
 import { GoArrowDown } from "react-icons/go";
 import { LuWallet } from "react-icons/lu";
-import { images } from '../../assets/images';
-import Navbar from '../../containers/Navbar/navbar';
-
+import { images } from "../../assets/images";
+import Navbar from "../../containers/Navbar/navbar";
+import { convertWeiToEth, getTokenBalance } from "../../services/web3-services";
+import { web3GlobalContext } from "../../context/globalContext";
+import USDeAbi from "../../contract-abi/USDeABI.json";
+import USDTAbi from "../../contract-abi/USDTAbi.json";
+import config from "../../config";
+import { useActiveAccount, useWalletBalance } from "thirdweb/react";
 
 const BuySection = () => {
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [isDropdownToOpen, setIsDropdownToOpen] = useState(false);
-    const [selectedCurrency, setSelectedCurrency] = useState({
-        name: "USDT",
-        logo: images.USDT.src,
-    });
-    const [selectedToCurrency, setSelectedToCurrency] = useState({
-        name: "USDe",
-        logo: images.USDC.src,
-    });
-    const [isSwap, setIsSwap] = useState(false)
+  const account: any = useActiveAccount();
+  const walletAddress: any = account?.address;
+  const [usdePrice, setUsdePrice] = useState(null);
+  const [usdtPrice, setUsdtPrice] = useState(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isDropdownToOpen, setIsDropdownToOpen] = useState(false);
+  const [selectedCurrency, setSelectedCurrency] = useState({
+    name: "USDT",
+    logo: images.USDT.src,
+  });
+  const [isSwap, setIsSwap] = useState(false);
+  const currencies = [
+    { name: "USDT", logo: images.USDT.src },
+    { name: "USDC", logo: images.USDC.src },
+    { name: "DAI", logo: images.DAI.src },
+    { name: "GHO", logo: images.GHO.src },
+    { name: "crvUSD", logo: images.CRV.src },
+  ];
 
-    const currencies = [
-        { name: "USDT", logo: images.USDT.src },
-        { name: "USDC", logo: images.USDC.src },
-        { name: "DAI", logo: images.DAI.src },
-        { name: "GHO", logo: images.GHO.src },
-        { name: "crvUSD", logo: images.CRV.src },
-    ];
-    const currenciesTo = [
-        { name: "USDT", logo: images.USDT.src },
-        { name: "USDC", logo: images.USDC.src },
-        { name: "DAI", logo: images.DAI.src },
-        { name: "GHO", logo: images.GHO.src },
-        { name: "crvUSD", logo: images.CRV.src },
-    ];
+  const { web3Obj }: any = useContext(web3GlobalContext);
 
-    const toggleDropdown = () => {
-        setIsDropdownOpen(!isDropdownOpen);
-    };
-    const toggleToDropdown = () => {
-        setIsDropdownToOpen(!isDropdownToOpen);
-    };
-
-    const swappingToggle = () => {
-        setIsSwap(!isSwap)
+  useEffect(() => {
+    if (walletAddress) {
+      checkUSDeBalance();
+      checkFromTokenBalance();
     }
+  }, [walletAddress]);
 
-    const selectCurrency = (currency: any) => {
-        setSelectedCurrency(currency);
-        setIsDropdownOpen(false);
-    };
-    const selectToCurrency = (currency: any) => {
-        setSelectedToCurrency(currency);
-        setIsDropdownToOpen(false);
-    };
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+  const toggleToDropdown = () => {
+    setIsDropdownToOpen(!isDropdownToOpen);
+  };
 
-    return (
-        <div className='main-container-two main-container layout-background-image'>
-            <Navbar />
-            <div className='buy-container'>
-                <div className='cont-head'>
-                    Buy USDe
-                </div>
-                <div className={isSwap ? "buy-input-field-reverse" : 'buy-input-field'}>
-                    <div className='field-xs-text'>You Send*</div>
-                    <div className='single-field field1-border-radius'>
-                        <div style={{ display: 'flex' }}>
-                            <div style={{ display: 'flex' }} className="currency-selector" onClick={toggleDropdown}>
-                                <span className="currency-name">{selectedCurrency.name}</span>
-                                <div className="dropdown-icon">
-                                    <span>{isDropdownOpen ? "▴" : "▾"}</span>
-                                </div>
-                            </div>
-                            <div className='field-xl-text'>0</div>
-                        </div>
-                        <div >
-                            <img
-                                src={selectedCurrency.logo}
-                                alt={`${selectedCurrency.name} Logo`}
-                                className="currency-logo"
-                            />
-                            {isDropdownOpen && (
-                                <div className="dropdown-menu">
-                                    {currencies.map((currency) => (
-                                        <div
-                                            key={currency.name}
-                                            className={`dropdown-item ${selectedCurrency.name === currency.name ? "active" : ""
-                                                }`}
-                                            onClick={() => selectCurrency(currency)}
-                                        >
-                                            <img
-                                                src={currency.logo}
-                                                alt={`${currency.name} Logo`}
-                                                className="dropdown-logo"
-                                            />
-                                            <span className="dropdown-name">{currency.name}</span>
-                                            <span className="dropdown-balance">0</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                    <IconContext.Provider value={{ color: "#fff", size: '1.2em' }}>
-                        <div className= "swap-icon" onClick={swappingToggle} >
-                            <GoArrowDown />
-                        </div>
-                    </IconContext.Provider>
-                    <div className='field-xs-text'>You Receive*</div>
-                    <div className='single-field field1-border-radius'>
-                        <div style={{ display: 'flex' }}>
-                            <div style={{ display: 'flex' }} className="currency-selector" onClick={toggleToDropdown}>
-                                <span className="currency-name">{selectedToCurrency.name}</span>
-                                <div className="dropdown-icon">
-                                    <span>{isDropdownToOpen ? "▴" : "▾"}</span>
-                                </div>
-                            </div>
-                            <div className='field-xl-text'>0</div>
-                        </div>
-                        <div >
-                            <img
-                                src={selectedToCurrency.logo}
-                                alt={`${selectedToCurrency.name} Logo`}
-                                className="currency-logo"
-                            />
-                            {isDropdownToOpen && (
-                                <div className="dropdown2-menu">
-                                    {currenciesTo.map((currency) => (
-                                        <div
-                                            key={currency.name}
-                                            className={`dropdown-item ${selectedToCurrency.name === currency.name ? "active" : ""
-                                                }`}
-                                            onClick={() => selectToCurrency(currency)}
-                                        >
-                                            <img
-                                                src={currency.logo}
-                                                alt={`${currency.name} Logo`}
-                                                className="dropdown-logo"
-                                            />
-                                            <span className="dropdown-name">{currency.name}</span>
-                                            <span className="dropdown-balance">0</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </div>
-                <div className='slippage-cta'>
-                    <div className='slippage-gas'>
-                        <li className='s-g-text1'>Max Slippage: 0.10%</li>
-                        <li className='s-g-text1'>Gas: $2.97</li>
-                    </div>
-                    <button className='buy-cta'>
-                        <IconContext.Provider value={{ color: "#fff", size: '1.2em' }}>
-                            <div style={{ marginRight: 8 }} >
-                                <LuWallet />
-                            </div>
-                        </IconContext.Provider>
-                        <span> CONNECT WALLET</span></button>
-                </div>
+  const swappingToggle = () => {
+    setIsSwap(!isSwap);
+  };
 
+  const selectCurrency = (currency: any) => {
+    setSelectedCurrency(currency);
+    setIsDropdownOpen(false);
+  };
+
+  const checkUSDeBalance = async () => {
+    try {
+      let balance = await getTokenBalance(
+        USDeAbi,
+        config.USDEContractAddress,
+        walletAddress
+      );
+      console.log(" USDE balance in WEI", balance);
+      if (balance) {
+        let balanceInWei = [balance.toString()];
+        let balanceInEth: any = await convertWeiToEth(balanceInWei);
+        console.log("__USDE balance in ETH___", balanceInEth[0]);
+        setUsdePrice(balanceInEth[0]);
+      }
+    } catch (e) {
+      console.log("error in checkUSDeBalance", e);
+      return;
+    }
+  };
+
+  const checkFromTokenBalance = async () => {
+    try {
+      let balance = await getTokenBalance(
+        USDTAbi,
+        config.USDTContractAddress,
+        walletAddress
+      );
+      console.log(" USDT balance in WEI", balance);
+      if (balance) {
+        let balanceInWei = [balance.toString()];
+        let balanceInEth: any = await convertWeiToEth(balanceInWei);
+        console.log("__USDT balance in ETH___", balanceInEth[0]);
+        setUsdtPrice(balanceInEth[0]);
+      }
+    } catch (e) {
+      console.log("error in checkFromTokenBalance", e);
+      return;
+    }
+  };
+
+  const BuyUsde = async() =>{
+    try{
+
+    }catch(e){
+        console.log("error in Buy Usde" , e);
+        return;
+    }
+  }
+  const SellUsde = async() =>{
+    try{
+
+    }catch(e){
+        console.log("error in Sell Usde" , e);
+        return;
+    }
+  }
+
+  return (
+    <div className="main-container-two main-container layout-background-image">
+      <Navbar />
+      <div className="buy-container">
+        <div className="cont-head">{isSwap ? "Sell" : "Buy"} USDe</div>
+        <div className={isSwap ? "buy-input-field-reverse" : "buy-input-field"}>
+          <div>
+            <div className="field-xs-text">You Send*</div>
+            <div className="single-field field1-border-radius">
+              <div style={{ display: "flex" }}>
+                <div
+                  style={{ display: "flex" }}
+                  className="currency-selector"
+                  onClick={toggleDropdown}
+                >
+                  <span className="currency-name">{selectedCurrency.name}</span>
+                  <div className="dropdown-icon">
+                    <span>{isDropdownOpen ? "▴" : "▾"}</span>
+                  </div>
+                </div>
+                {/* <div className='field-xl-text'>0</div> */}
+                <input
+                  className="field-xl-text"
+                  placeholder="0"
+                  type="number"
+                />
+              </div>
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <img
+                    src={selectedCurrency.logo}
+                    alt={`${selectedCurrency.name} Logo`}
+                    className="currency-logo"
+                  />
+                  {walletAddress && (
+                    <div className="balance-text">
+                      Balance:{usdtPrice ? usdtPrice : ""}
+                    </div>
+                  )}
+                </div>
+                {isDropdownOpen && (
+                  <div className="dropdown-menu">
+                    {currencies.map((currency) => (
+                      <div
+                        key={currency.name}
+                        className={`dropdown-item ${
+                          selectedCurrency.name === currency.name
+                            ? "active"
+                            : ""
+                        }`}
+                        onClick={() => selectCurrency(currency)}
+                      >
+                        <img
+                          src={currency.logo}
+                          alt={`${currency.name} Logo`}
+                          className="dropdown-logo"
+                        />
+                        <span className="dropdown-name">{currency.name}</span>
+                        <span className="dropdown-balance">0</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
+          </div>
+          <IconContext.Provider value={{ color: "#fff", size: "1.2em" }}>
+            <div className="swap-icon" onClick={swappingToggle}>
+              <GoArrowDown />
+            </div>
+          </IconContext.Provider>
+          <div>
+            <div className="field-xs-text">You Receive*</div>
+            <div className="single-field field1-border-radius">
+              <div style={{ display: "flex" }}>
+                <div
+                  style={{ display: "flex" }}
+                  className="currency-selector"
+                  onClick={toggleToDropdown}
+                >
+                  <span className="currency-name">USDe</span>
+                </div>
+                {/* <div className='field-xl-text'>0</div> */}
+                <input
+                  className="field-xl-text"
+                  placeholder="0"
+                  type="number"
+                />
+              </div>
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <img
+                    src={images.USDC.src}
+                    alt={`usde Logo`}
+                    className="currency-logo"
+                  />
+                  {walletAddress && (
+                    <div className="balance-text">
+                      Balance:{usdePrice ? usdePrice : ""}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+        <div className="slippage-cta">
+          <div className="slippage-gas">
+            <li className="s-g-text1">Max Slippage: 0.10%</li>
+            <li className="s-g-text1">Gas: $2.97</li>
+          </div>
+          {walletAddress ? (
+            <>
+              {isSwap ? (
+                <button className="buy-cta" onClick={SellUsde}> Sell USDe </button>
+              ) : (
+                <button className="buy-cta" onClick={BuyUsde}> Buy USDe </button>
+              )}
+            </>
+          ) : (
+            <button className="buy-cta">
+              <IconContext.Provider value={{ color: "#fff", size: "1.2em" }}>
+                <div style={{ marginRight: 8 }}>
+                  <LuWallet />
+                </div>
+              </IconContext.Provider>
+              <span> CONNECT WALLET</span>
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
 
-    )
-}
-
-export default BuySection
+export default BuySection;

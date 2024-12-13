@@ -78,7 +78,6 @@
   flex-direction: column;
 }
 .buy-input-field-reverse {
-  margin-top: 1.5rem;
   position: relative;
   display: flex;
   flex-direction: column-reverse;
@@ -113,7 +112,22 @@
   font-size: 1.2rem;
   font-weight: 500;
   margin-left: 15px;
-  margin-top: 5px;
+  /* margin-top: 5px; */
+  background: transparent;
+  border: none;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+textarea:focus, input:focus{
+  outline: none;
 }
 
 .currency-container {
@@ -150,6 +164,11 @@
 .dropdown-icon {
   font-size: 14px;
   color: #aaa;
+}
+.balance-text{
+  font-size: 12px;
+  color: #aaa;
+padding-top: 8px;
 }
 
 .dropdown-menu {

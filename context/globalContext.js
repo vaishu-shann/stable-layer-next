@@ -7,9 +7,9 @@ var web3Defaultobj;
 export const web3GlobalContext = createContext({});
 
 
-export function Web3Global({ children: any }) {
+export function Web3Global({children}) {
     const account = useActiveAccount();
-    const connectedWalletAddress = account.address;
+    const connectedWalletAddress = account?.address;
     const [web3Obj, setWeb3Obj] = useState();
 
     useLayoutEffect(() => {

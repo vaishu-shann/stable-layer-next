@@ -43,7 +43,6 @@ const Navbar = () => {
     }, []);
 
 
-    console.log("StoredPathname", StoredPathname)
     const onScreenRoute = (route: string) => {
         router.push(route);
     }
@@ -72,7 +71,7 @@ const Navbar = () => {
                             Earn
                         </li>
                         {/* <div className={StoredPathname === '/reward' ?'nav-list-active'  :'navbar-list'}>Reward</div> */}
-       
+                        <li className={StoredPathname === '/dashboard' ? 'nav-list-active' : ''} onClick={() => onScreenRoute('/dashboard')}>Dashboards</li>
                     </ul>
                 </div>
 
