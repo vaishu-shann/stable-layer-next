@@ -74,7 +74,11 @@
   
   
   .nav-list-active {
-    color: #73A0FB !important;
+    padding: 10px 15px;
+    /* margin: 0 15px; */
+    cursor: pointer;
+    color: #73A0FB;
+    background: radial-gradient(49.93% 24.26% at 50% 100%, rgba(136, 180, 245, .32) 0, rgba(136, 180, 245, 0) 100%);
   }
   
   

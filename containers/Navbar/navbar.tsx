@@ -9,13 +9,16 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { MdOutlineClose } from "react-icons/md";
 import useWindowSize from "../../utils/windowSize";
 import { IconContext } from "react-icons";
+import { useActiveAccount, useWalletBalance } from "thirdweb/react";
 import "../../styles/NavbarMock.css"
 
 const Navbar = () => {
     const [click, setClick] = React.useState(false);
+    const [StoredPathname, setStoredPathname] = React.useState("");
     const handleClick = () => setClick(!click);
     const windowSize = useWindowSize();
     const router = useRouter();
+    const account = useActiveAccount();
     let Pathname: any;
 
     const client = createThirdwebClient({
@@ -31,12 +34,16 @@ const Navbar = () => {
     useEffect(() => {
         if (typeof window !== "undefined") {
             Pathname = window.location.pathname;
+            localStorage.setItem("pathname", Pathname);
+            let temp: any = localStorage.getItem("pathname")
+            setStoredPathname(temp)
         } else {
             console.log("You are on the server,Cannot execute");
         }
     }, []);
 
 
+    console.log("StoredPathname", StoredPathname)
     const onScreenRoute = (route: string) => {
         router.push(route);
     }
@@ -48,24 +55,24 @@ const Navbar = () => {
                 <div style={{ color: "#fff", fontWeight: 700, fontSize: 24, marginRight: 10 }}>StableLayer</div>
 
                 <div className="routes">
-                    <ul className={click ? "nav-menu active slide-in" : "nav-list"}  id="slider">
-                        <li className={Pathname === '/portfolio' ? 'navbar-list-active' : ''}
+                    <ul className={click ? "nav-menu active slide-in" : "nav-list"} id="slider">
+                        <li className={StoredPathname === '/portfolio' ? 'nav-list-active' : ''}
                             onClick={() => onScreenRoute('/portfolio')}>Portfolio</li>
-                        <li className={Pathname === '/sena' ? 'navbar-list-active' : ''} onClick={() => onScreenRoute('/sena')}>sENA</li>
+                        <li className={StoredPathname === '/sena' ? 'nav-list-active' : ''} onClick={() => onScreenRoute('/sena')}>sENA</li>
                         <li
-                            className={Pathname === '/buy' ? 'navbar-list-active' : ''}
+                            className={StoredPathname === '/buy' ? 'nav-list-active' : ''}
                             onClick={() => onScreenRoute('/buy')}
                         >
                             Buy
                         </li>
                         <li
-                            className={Pathname === '/earn' ? 'navbar-list-active' : ''}
+                            className={StoredPathname === '/earn' ? 'nav-list-active' : ''}
                             onClick={() => onScreenRoute('/earn')}
                         >
                             Earn
                         </li>
-                        {/* <div className={Pathname === '/reward' ?'navbar-list-active'  :'navbar-list'}>Reward</div> */}
-                        <li className={Pathname === '/dashboard' ? 'navbar-list-active' : ''} onClick={() => onScreenRoute('/dashboard')}>Dashboards</li>
+                        {/* <div className={StoredPathname === '/reward' ?'nav-list-active'  :'navbar-list'}>Reward</div> */}
+       
                     </ul>
                 </div>
 

@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { IconContext } from "react-icons";
 import { TbInfoHexagon } from "react-icons/tb";
 import PortfolioStake from '../PortfolioStake/portfolioStake';
@@ -9,37 +9,41 @@ import PortfolioLockTab from '../PortfolioLockTab/portfolioLockTab';
 
 const PortfolioLock = () => {
     let Pathname: any;
+    const [StoredPathname, setStoredPathname] = React.useState("");
 
     const [lockTab, setLockTab] = useState("lock")
     useEffect(() => {
         if (typeof window !== "undefined") {
-          Pathname = window.location.pathname;
+            Pathname = window.location.pathname;
+            localStorage.setItem("pathname", Pathname);
+            let temp: any = localStorage.getItem("pathname")
+            setStoredPathname(temp)
         } else {
-          console.log("You are on the server,Cannot execute");
+            console.log("You are on the server,Cannot execute");
         }
-      }, []);
+    }, []);
 
     return (
-        <div className={Pathname === "/portfolio" ?'lock-container': "sena-conatiner"}>
+        <div className={StoredPathname === "/portfolio" ? 'lock-container' : "sena-conatiner"}>
             <div className='earn-page-tab'>
                 <div className={lockTab === "lock" ? 'tab-list-lock-active' : 'tab-list-lock'} onClick={() => setLockTab("lock")}>Lock</div>
                 <div className={lockTab === "stake" ? 'tab-list-lock-active' : 'tab-list-lock'} onClick={() => setLockTab("stake")}>Stake</div>
-               { Pathname === "/portfolio" && 
-                <div className={lockTab === "buy" ? 'tab-list-lock-active' : 'tab-list-lock'} onClick={() => setLockTab("buy")}>Buy</div>}
+                {StoredPathname === "/portfolio" &&
+                    <div className={lockTab === "buy" ? 'tab-list-lock-active' : 'tab-list-lock'} onClick={() => setLockTab("buy")}>Buy</div>}
             </div>
 
-            {lockTab === "lock" ? 
-           <PortfolioLockTab/> : ""}
+            {lockTab === "lock" ?
+                <PortfolioLockTab /> : ""}
 
 
-            {lockTab==="stake"?
-            <PortfolioStake/>            
-            :""}
+            {lockTab === "stake" ?
+                <PortfolioStake />
+                : ""}
 
-            {lockTab==="buy"?<PortfolioBuy/>:""}
+            {lockTab === "buy" ? <PortfolioBuy /> : ""}
 
 
-            {lockTab==="buy"? "" : <div className='earn-disclaimer'>
+            {lockTab === "buy" ? "" : <div className='earn-disclaimer'>
                 <IconContext.Provider value={{ color: "#fff", size: '1em' }}>
                     <div style={{ margin: '0 10px 0 0' }}  >
                         <TbInfoHexagon />
@@ -51,18 +55,18 @@ const PortfolioLock = () => {
             </div>}
 
 
-             <div className='slippage-cta'>
-            <div className='slippage-gas'>
-                <li className='s-g-text1'>Max Slippage: 0.10%</li>
-                <li className='s-g-text1'>Gas: $2.97</li>
-            </div>
-            <button className='buy-cta'>
-            <IconContext.Provider value={{ color: "#fff",  size: '1.2em' }}>
-                    <div style={{marginRight:8}} >
-                    <LuWallet />
-                    </div>
-                </IconContext.Provider>
-                <span> CONNECT WALLET</span></button>
+            <div className='slippage-cta'>
+                <div className='slippage-gas'>
+                    <li className='s-g-text1'>Max Slippage: 0.10%</li>
+                    <li className='s-g-text1'>Gas: $2.97</li>
+                </div>
+                <button className='buy-cta'>
+                    <IconContext.Provider value={{ color: "#fff", size: '1.2em' }}>
+                        <div style={{ marginRight: 8 }} >
+                            <LuWallet />
+                        </div>
+                    </IconContext.Provider>
+                    <span> CONNECT WALLET</span></button>
             </div>
 
         </div>
