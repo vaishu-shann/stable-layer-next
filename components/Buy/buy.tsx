@@ -9,7 +9,7 @@ import { web3GlobalContext } from "../../context/globalContext";
 import USDeAbi from "../../contract-abi/USDeABI.json";
 import USDTAbi from "../../contract-abi/USDTAbi.json";
 import config from "../../config";
-import { useActiveAccount, useWalletBalance } from "thirdweb/react";
+import { useActiveAccount } from "thirdweb/react";
 
 const BuySection = () => {
   const account: any = useActiveAccount();
@@ -32,6 +32,7 @@ const BuySection = () => {
   ];
 
   const { web3Obj }: any = useContext(web3GlobalContext);
+
 
   useEffect(() => {
     if (walletAddress) {
@@ -156,7 +157,7 @@ const BuySection = () => {
                   />
                   {walletAddress && (
                     <div className="balance-text">
-                      Balance:{usdtPrice ? usdtPrice : ""}
+                      Balance: {usdtPrice ? parseFloat(Number(usdtPrice).toFixed(2)) : ""}
                     </div>
                   )}
                 </div>
@@ -225,7 +226,7 @@ const BuySection = () => {
                   />
                   {walletAddress && (
                     <div className="balance-text">
-                      Balance:{usdePrice ? usdePrice : ""}
+                      Balance: {usdePrice ? parseFloat(Number(usdePrice).toFixed(2)) : ""}
                     </div>
                   )}
                 </div>

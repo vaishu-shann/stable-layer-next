@@ -115,6 +115,7 @@
   /* margin-top: 5px; */
   background: transparent;
   border: none;
+  width: 200px;
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
