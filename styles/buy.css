@@ -49,6 +49,12 @@
   border-radius: 8px;
 
 }
+.error-text-balance{
+  color: tomato;
+  font-size: 14px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
 .s-g-text1{
   font-size: 14px;
   line-height: 18px;

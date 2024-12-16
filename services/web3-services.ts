@@ -13,7 +13,6 @@ export const createWeb3Object = async () => {
     }
 };
 
-
 export const createContractObject = async function (
     web3Obj:any,
     contractABI:any,

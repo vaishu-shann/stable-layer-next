@@ -10,6 +10,7 @@ import USDeAbi from "../../contract-abi/USDeABI.json";
 import USDTAbi from "../../contract-abi/USDTAbi.json";
 import config from "../../config";
 import { useActiveAccount } from "thirdweb/react";
+import { buyUSDe, sellUSDe } from "../../services/web3-integrations";
 
 const BuySection = () => {
   const account: any = useActiveAccount();
@@ -23,6 +24,11 @@ const BuySection = () => {
     logo: images.USDT.src,
   });
   const [isSwap, setIsSwap] = useState(false);
+  const [sendInput, setSendInput] = useState();
+  const [receiveInput, setReceiveInput] = useState();
+  const [sendInputError, setSendInputError] = useState(false);
+  const [receiveInputError, setReceiveInputError] = useState(false);
+
   const currencies = [
     { name: "USDT", logo: images.USDT.src },
     { name: "USDC", logo: images.USDC.src },
@@ -32,7 +38,6 @@ const BuySection = () => {
   ];
 
   const { web3Obj }: any = useContext(web3GlobalContext);
-
 
   useEffect(() => {
     if (walletAddress) {
@@ -96,23 +101,47 @@ const BuySection = () => {
       return;
     }
   };
+  useEffect(()=>{
+ 
+    if (Number(sendInput) > Number(usdtPrice)) {
+      setSendInputError(true);
+    }else{
+      setSendInputError(false);
 
-  const BuyUsde = async() =>{
-    try{
-
-    }catch(e){
-        console.log("error in Buy Usde" , e);
-        return;
     }
-  }
-  const SellUsde = async() =>{
-    try{
+  },[sendInput])
 
-    }catch(e){
-        console.log("error in Sell Usde" , e);
-        return;
+  useEffect(()=>{
+    if (Number(receiveInput) > Number(usdePrice)) {
+      setReceiveInputError(true);
+    }else{
+      setReceiveInputError(false);
+
     }
-  }
+  },[receiveInput])
+
+  const BuyUsde = async () => {
+    try {
+      console.log("buy  value", sendInput);
+      console.log(" sell value", receiveInput);
+      // let buyResponse = await buyUSDe();
+      // console.log("buyResponse", buyResponse);
+ 
+    } catch (e) {
+      console.log("error in Buy Usde", e);
+      return;
+    }
+  };
+  const SellUsde = async () => {
+    try {
+    
+      let sellResponse = await sellUSDe();
+      console.log("sellResponse", sellResponse);
+    } catch (e) {
+      console.log("error in Sell Usde", e);
+      return;
+    }
+  };
 
   return (
     <div className="main-container-two main-container layout-background-image">
@@ -134,11 +163,12 @@ const BuySection = () => {
                     <span>{isDropdownOpen ? "▴" : "▾"}</span>
                   </div>
                 </div>
-                {/* <div className='field-xl-text'>0</div> */}
                 <input
                   className="field-xl-text"
                   placeholder="0"
                   type="number"
+                  style={{color:sendInputError?"tomato":"#9c9fa6"}}
+                  onChange={(e: any) => setSendInput(e.target.value)}
                 />
               </div>
               <div>
@@ -146,8 +176,9 @@ const BuySection = () => {
                   style={{
                     display: "flex",
                     flexDirection: "column",
-                    alignItems: "center",
+                    alignItems: "end",
                     justifyContent: "center",
+                    width: 120,
                   }}
                 >
                   <img
@@ -157,7 +188,10 @@ const BuySection = () => {
                   />
                   {walletAddress && (
                     <div className="balance-text">
-                      Balance: {usdtPrice ? parseFloat(Number(usdtPrice).toFixed(2)) : ""}
+                      Balance:{" "}
+                      {usdtPrice
+                        ? parseFloat(Number(usdtPrice).toFixed(2))
+                        : ""}
                     </div>
                   )}
                 </div>
@@ -186,6 +220,7 @@ const BuySection = () => {
                 )}
               </div>
             </div>
+            {sendInputError && <div className="error-text-balance">Please check the max value</div>}
           </div>
           <IconContext.Provider value={{ color: "#fff", size: "1.2em" }}>
             <div className="swap-icon" onClick={swappingToggle}>
@@ -208,6 +243,9 @@ const BuySection = () => {
                   className="field-xl-text"
                   placeholder="0"
                   type="number"
+                  style={{color:receiveInputError?"tomato":"#9c9fa6"}}
+
+                  onChange={(e: any) => setReceiveInput(e.target.value)}
                 />
               </div>
               <div>
@@ -215,8 +253,9 @@ const BuySection = () => {
                   style={{
                     display: "flex",
                     flexDirection: "column",
-                    alignItems: "center",
+                    alignItems: "end",
                     justifyContent: "center",
+                    width: 120,
                   }}
                 >
                   <img
@@ -226,12 +265,17 @@ const BuySection = () => {
                   />
                   {walletAddress && (
                     <div className="balance-text">
-                      Balance: {usdePrice ? parseFloat(Number(usdePrice).toFixed(2)) : ""}
+                      Balance:{" "}
+                      {usdePrice
+                        ? parseFloat(Number(usdePrice).toFixed(2))
+                        : ""}
                     </div>
                   )}
                 </div>
               </div>
             </div>
+            {receiveInputError && <div className="error-text-balance">Please check the max value</div>}
+
           </div>
         </div>
         <div className="slippage-cta">
@@ -242,9 +286,15 @@ const BuySection = () => {
           {walletAddress ? (
             <>
               {isSwap ? (
-                <button className="buy-cta" onClick={SellUsde}> Sell USDe </button>
+                <button className="buy-cta" onClick={SellUsde}>
+                  {" "}
+                  Sell USDe{" "}
+                </button>
               ) : (
-                <button className="buy-cta" onClick={BuyUsde}> Buy USDe </button>
+                <button className="buy-cta" onClick={BuyUsde}>
+                  {" "}
+                  Buy USDe{" "}
+                </button>
               )}
             </>
           ) : (

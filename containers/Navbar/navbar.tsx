@@ -59,7 +59,7 @@ const Navbar = () => {
                             onClick={() => onScreenRoute('/portfolio')}>Portfolio</li>
                         <li className={StoredPathname === '/sena' ? 'nav-list-active' : ''} onClick={() => onScreenRoute('/sena')}>sENA</li>
                         <li
-                            className={StoredPathname === '/buy' ? 'nav-list-active' : ''}
+                            className={StoredPathname === '/'|| StoredPathname ===  '/buy' ? 'nav-list-active' : ''}
                             onClick={() => onScreenRoute('/buy')}
                         >
                             Buy
