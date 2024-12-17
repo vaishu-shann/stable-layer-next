@@ -101,24 +101,21 @@ const BuySection = () => {
       return;
     }
   };
-  useEffect(()=>{
- 
+  useEffect(() => {
     if (Number(sendInput) > Number(usdtPrice)) {
       setSendInputError(true);
-    }else{
+    } else {
       setSendInputError(false);
-
     }
-  },[sendInput])
+  }, [sendInput]);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (Number(receiveInput) > Number(usdePrice)) {
       setReceiveInputError(true);
-    }else{
+    } else {
       setReceiveInputError(false);
-
     }
-  },[receiveInput])
+  }, [receiveInput]);
 
   const BuyUsde = async () => {
     try {
@@ -126,7 +123,6 @@ const BuySection = () => {
       console.log(" sell value", receiveInput);
       // let buyResponse = await buyUSDe();
       // console.log("buyResponse", buyResponse);
- 
     } catch (e) {
       console.log("error in Buy Usde", e);
       return;
@@ -134,7 +130,6 @@ const BuySection = () => {
   };
   const SellUsde = async () => {
     try {
-    
       let sellResponse = await sellUSDe();
       console.log("sellResponse", sellResponse);
     } catch (e) {
@@ -167,7 +162,7 @@ const BuySection = () => {
                   className="field-xl-text"
                   placeholder="0"
                   type="number"
-                  style={{color:sendInputError?"tomato":"#9c9fa6"}}
+                  style={{ color: sendInputError ? "tomato" : "#9c9fa6" }}
                   onChange={(e: any) => setSendInput(e.target.value)}
                 />
               </div>
@@ -220,7 +215,11 @@ const BuySection = () => {
                 )}
               </div>
             </div>
-            {sendInputError && <div className="error-text-balance">Please check the max value</div>}
+            {sendInputError && (
+              <div className="error-text-balance">
+                Please check the max value
+              </div>
+            )}
           </div>
           <IconContext.Provider value={{ color: "#fff", size: "1.2em" }}>
             <div className="swap-icon" onClick={swappingToggle}>
@@ -243,8 +242,7 @@ const BuySection = () => {
                   className="field-xl-text"
                   placeholder="0"
                   type="number"
-                  style={{color:receiveInputError?"tomato":"#9c9fa6"}}
-
+                  style={{ color: receiveInputError ? "tomato" : "#9c9fa6" }}
                   onChange={(e: any) => setReceiveInput(e.target.value)}
                 />
               </div>
@@ -274,8 +272,11 @@ const BuySection = () => {
                 </div>
               </div>
             </div>
-            {receiveInputError && <div className="error-text-balance">Please check the max value</div>}
-
+            {receiveInputError && (
+              <div className="error-text-balance">
+                Please check the max value
+              </div>
+            )}
           </div>
         </div>
         <div className="slippage-cta">
