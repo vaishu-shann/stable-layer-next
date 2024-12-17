@@ -12,7 +12,7 @@ export function Web3Global({children}) {
     const connectedWalletAddress = account?.address;
     const [web3Obj, setWeb3Obj] = useState();
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         if (connectedWalletAddress) {
             let web3 = new Web3(window.ethereum);
             setWeb3Obj(web3);
